@@ -1,9 +1,13 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const reviewRoutes = require('./routes/reviewRoutes');
 require('dotenv').config();
 
 const app = express();
+
+// CORS 설정
+app.use(cors());
 
 // 미들웨어 설정
 app.use(express.json());
