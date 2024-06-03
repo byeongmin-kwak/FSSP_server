@@ -37,8 +37,8 @@ exports.submitReview = async (req, res) => {
       residenceYear,
       residenceFloor,
       overallRating,
-      strengthKeywords,
-      weaknessKeywords,
+      advantageKeywords,
+      disadvantageKeywords,
       userId,
       userName,
       latitude,
@@ -53,8 +53,8 @@ exports.submitReview = async (req, res) => {
       residenceYear,
       residenceFloor,
       overallRating,
-      strengthKeywords,
-      weaknessKeywords,
+      advantageKeywords,
+      disadvantageKeywords,
       userId,
       userName,
       latitude,
@@ -63,6 +63,7 @@ exports.submitReview = async (req, res) => {
 
     await newReview.save();
     res.status(201).json(newReview);
+    console.log("post");
   } catch (error) {
     console.error('Error submitting review:', error);
     res.status(500).json({ message: '서버 오류가 발생했습니다.' });
