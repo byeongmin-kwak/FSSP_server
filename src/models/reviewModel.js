@@ -7,8 +7,8 @@ const reviewSchema = new mongoose.Schema({
   address: { type: String, required: true }, // 주소
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // 작성한 유저 아이디
   userName: {type: String}, // 유저 이름
-  latitude: { type: String}, // 위도
-  longitude: { type: String}, // 경도
+  latitude: { type: Number}, // 위도
+  longitude: { type: Number}, // 경도
   residenceYear: { type: String }, // 거주 년도
   residenceFloor: { type: String }, // 거주 층수
   overallRating: { type: Number }, // 총 평점
