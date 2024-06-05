@@ -13,7 +13,10 @@ const reviewSchema = new mongoose.Schema({
   residenceFloor: { type: String }, // 거주 층수
   overallRating: { type: Number }, // 총 평점
   advantageKeywords: { type: [String] }, // 장점 키워드
-  disadvantageKeywords: { type: [String] } // 단점 키워드
+  disadvantageKeywords: { type: [String] }, // 단점 키워드
+  bcode: {type String}, // 시군구코드+법정동코드
+  jibunAddress: {type String}, // 지번주소
+  buildingName: {type String}, // 건물 이름
 });
 
 const Review = mongoose.model('Review', reviewSchema);
