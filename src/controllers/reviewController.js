@@ -1,6 +1,7 @@
 // reviewController.js
 const Review = require('../models/reviewModel'); // 리뷰 모델
 
+// 최신 리뷰 조회
 exports.getLatestReviews = async (req, res) => {
   try {
     const reviews = await Review.find().sort({ createdAt: -1 }).limit(10);
@@ -10,6 +11,7 @@ exports.getLatestReviews = async (req, res) => {
   }
 };
 
+// 지도에서 리뷰 조회
 exports.getMapReviews = async (req, res) => {
   console.log(req.query);
   const { northEastLat, northEastLng, southWestLat, southWestLng } = req.query;
@@ -39,7 +41,7 @@ exports.getMapReviews = async (req, res) => {
       latitude: { $gte: swLat, $lte: neLat },
       longitude: { $gte: swLng, $lte: neLng }
     }, {
-      _id: 1, latitude: 1, longitude: 1, address: 1, overallRating: 1 // 필요한 필드만 선택적으로 반환
+      _id: 1, latitude: 1, longitude: 1, address: 1, overallRating: 1, jibunAddress: 1, bcode: 1, buildingName: 1, // 필요한 필드만 선택적으로 반환
     });
 
     console.log(reviews);
@@ -51,6 +53,7 @@ exports.getMapReviews = async (req, res) => {
   }
 };
 
+// 리뷰 작성
 exports.submitReview = async (req, res) => {
   try {
     const {
@@ -66,7 +69,10 @@ exports.submitReview = async (req, res) => {
       userId,
       userName,
       latitude,
-      longitude
+      longitude,
+      bcode,
+      jibunAddress,
+      buildingName,
     } = req.body;
 
     // 좌표 값을 숫자형으로 변환
@@ -87,6 +93,9 @@ exports.submitReview = async (req, res) => {
       userName,
       latitude: lat,
       longitude: lng,
+      bcode,
+      jibunAddress,
+      buildingName,
     });
 
     await newReview.save();
@@ -94,5 +103,15 @@ exports.submitReview = async (req, res) => {
   } catch (error) {
     console.error('Error submitting review:', error);
     res.status(500).json({ message: '서버 오류가 발생했습니다.' });
+  }
+};
+
+exports.getReviewsByAddress = async (req, res) => {
+  try {
+    const address = req.query.address;
+    const revies = await Review.find({ address: address});
+    res.json(revies);
+  } catch (err) {
+    res.status(500).json({ error: err.message});
   }
 };
