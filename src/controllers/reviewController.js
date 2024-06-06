@@ -13,7 +13,6 @@ exports.getLatestReviews = async (req, res) => {
 
 // 지도에서 리뷰 조회
 exports.getMapReviews = async (req, res) => {
-  console.log(req.query);
   const { northEastLat, northEastLng, southWestLat, southWestLng } = req.query;
 
   // 입력 파라미터 검증
@@ -33,8 +32,6 @@ exports.getMapReviews = async (req, res) => {
   const swLat = parseFloat(southWestLat);
   const swLng = parseFloat(southWestLng);
 
-  console.log(`Querying reviews within latitudes (${swLat}, ${neLat}) and longitudes (${swLng}, ${neLng})`);
-
   try {
     // MongoDB 쿼리
     const reviews = await Review.find({
@@ -43,8 +40,6 @@ exports.getMapReviews = async (req, res) => {
     }, {
       _id: 1, latitude: 1, longitude: 1, address: 1, overallRating: 1, jibunAddress: 1, bcode: 1, buildingName: 1, // 필요한 필드만 선택적으로 반환
     });
-
-    console.log(reviews);
 
     res.json({ reviews });
   } catch (error) {
